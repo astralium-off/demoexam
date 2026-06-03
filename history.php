@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Выход из аккаунта
+
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: index.php');
@@ -12,7 +12,7 @@ if(!isset($_SESSION['user_id'])) die('Чтобы посмотреть истор
 $is_admin = isset($_SESSION['admin']) && $_SESSION['admin'];
 include('db.php');
 
-// Код изменения отзыва (отзыв о пройденных курсах обучения)
+
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['review'])) {
     $review = $con->real_escape_string($_POST['review']);
     $user_id = (int)$_SESSION['user_id'];
@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['review'])) {
     echo '<div class="success-message">✓ Отзыв о курсах успешно сохранён!</div>';
 }
 
-// Код истории заявок
+
 $user_id = (int)$_SESSION['user_id'];
 $query = $con->query("SELECT * FROM request WHERE user_id='$user_id' ORDER BY date DESC");
 if(!$query) die('query error: ' . $con->error);
@@ -32,7 +32,7 @@ if(!$query) die('query error: ' . $con->error);
     <meta charset="UTF-8">
     <title>Мои заявки — Пассажирам.РФ</title>
     <!-- Roboto: современный гротеск, отличная читаемость -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https:
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-history">
@@ -63,14 +63,14 @@ if(!$query) die('query error: ' . $con->error);
         while($request = $query->fetch_assoc()) {
             $i++;
 
-            // Определяем класс статуса (статусы согласно ТЗ)
+            
             $status_class = 'status-new';
             $status_text = htmlspecialchars($request['status']);
             if($status_text == 'Новая') $status_class = 'status-new';
             elseif($status_text == 'Идет обучение') $status_class = 'status-processing';
             elseif($status_text == 'Обучение завершено') $status_class = 'status-completed';
 
-            // Иконка для вида транспорта (curses = выбранный транспорт)
+            
             $venue = htmlspecialchars($request['curses']);
             $venue_icon = '';
             if(strpos($venue, 'Автобус') !== false) $venue_icon = '🚌';
@@ -86,19 +86,19 @@ if(!$query) die('query error: ' . $con->error);
                 <p><b>💳 Способ оплаты:</b> ' . htmlspecialchars($request['payment']) . '</p>
                 <p><b>📊 Статус:</b> <span class="' . $status_class . '">' . $status_text . '</span></p>';
 
-            // Комментарий, оставленный при подаче заявки (request.comment).
+            
             if(!empty($request['comment'])) {
                 echo '<div class="comment-text"><b>📝 Доп. информация:</b> ' . htmlspecialchars($request['comment']) . '</div>';
             }
 
-            // Отзыв о пройденных курсах (request.review).
+            
             if(!empty($request['review'])) {
                 echo '<div class="review-text"><b>⭐ Ваш отзыв:</b> ' . htmlspecialchars($request['review']) . '</div>';
             }
 
-            // Форма отзыва доступна только после того, как администратор
-            // перевёл заявку в статус «Обучение завершено» (требование ТЗ).
-            // Отзыв пишется в отдельную колонку review и не затирает исходный comment.
+            
+            
+            
             if($request['status'] === 'Обучение завершено') {
                 $review_placeholder = empty($request['review'])
                     ? '✍️ Оставьте отзыв о качестве пройденных курсов обучения...'

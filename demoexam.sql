@@ -4,7 +4,7 @@ SET NAMES utf8mb4;
 
 START TRANSACTION;
 
--- Таблица `users`
+
 DROP TABLE IF EXISTS `request`;
 DROP TABLE IF EXISTS `users`;
 
@@ -22,13 +22,13 @@ CREATE TABLE `users` (
   UNIQUE KEY `login` (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Единственный изначальный пользователь — администратор.
--- Логин: Admin26, пароль: Demo20 (bcrypt-хэш сгенерирован password_hash).
+
+
 INSERT INTO `users` (`id`, `fullname`, `birthdate`, `phone`, `email`, `login`, `password`, `is_admin`, `created_at`) VALUES
 (1, 'Администратор', '1990-01-01', '+7(000)000-00-00', 'admin@passazhiram.local', 'Admin26',
  '$2y$12$FoElWYpny0S0/nnT5BITTOTubAIy1ioPYNkluIY6.RwRoAsvnZYCG', 1, CURRENT_TIMESTAMP);
 
--- Таблица `request`
+
 CREATE TABLE `request` (
   `id`       int          NOT NULL AUTO_INCREMENT,
   `user_id`  int          NOT NULL,

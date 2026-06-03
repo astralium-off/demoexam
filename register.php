@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// Подключаем базу данных СРАЗУ в начале файла
+
 include('db.php');
 
-// Если пользователь уже авторизован, перенаправляем
+
 if (isset($_SESSION['user_id'])) {
     if (isset($_SESSION['admin']) && $_SESSION['admin']) {
         header('Location: admin.php');
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $form_data = compact('login', 'fullname', 'birthdate', 'phone', 'email');
 
-    // Валидация данных
+    
     $errors = [];
 
     if (empty($login)) {
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if (empty($errors)) {
-        // Проверка на существование логина
+        
         $stmt = $con->prepare("SELECT id FROM users WHERE login = ?");
         $stmt->bind_param("s", $login);
         $stmt->execute();
@@ -95,7 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $stmt->close();
 
-            // Проверка на существование email
+            
             $stmt2 = $con->prepare("SELECT id FROM users WHERE email = ?");
             $stmt2->bind_param("s", $email);
             $stmt2->execute();
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             } else {
                 $stmt2->close();
 
-                // БЕЗ ХЕШИРОВАНИЯ — сохраняем пароль как есть (открытым текстом)
+                
                 $stmt3 = $con->prepare("INSERT INTO users (login, password, fullname, birthdate, phone, email) VALUES (?, ?, ?, ?, ?, ?)");
                 $stmt3->bind_param("ssssss", $login, $password, $fullname, $birthdate, $phone, $email);
 
@@ -134,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация — Пассажирам.РФ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https:
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-register">
@@ -303,7 +303,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             });
         }
 
-        // Ограничение даты рождения: не позже сегодня, не раньше 1900
+        
         const birthdateInput = document.getElementById('birthdate');
         if (birthdateInput) {
             const today = new Date();

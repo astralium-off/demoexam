@@ -1,54 +1,44 @@
 :root {
-    /* ----- Базовая палитра ----- */
     --gray-dark: #343A40;
-    --gray-dark-rgb: 52, 58, 64;      /* RGB-компоненты --gray-dark для rgba()-наложений */
+    --gray-dark-rgb: 52, 58, 64;
     --gray-medium: #6c757d;
     --gray-light: #CED4DA;
     --gray-bg: #f8f9fa;
-    --gray-bg-soft: #eef2f5;          /* мягкий градиент-аккомпанемент к --gray-bg */
+    --gray-bg-soft: #eef2f5;
     --text-muted: #6c757d;
     --white: #FFFFFF;
 
-    /* ----- Бренд (зелёный) ----- */
-    --blue: #007bff;                 /* основной зелёный (кнопки, акценты) */
-    --blue-rgb: 0, 123, 255;         /* RGB-компоненты --blue для rgba()-теней.
-                                         Меняй вместе с --blue при смене бренда. */
-    --blue-dark: #0d47a1;            /* :hover/нажатое состояние */
-    --blue-darker: #09306b;          /* самые тёмные акценты (border, focus) */
+    --blue: #007bff;                 
+    --blue-rgb: 0, 123, 255;        
+    --blue-dark: #0d47a1;            
+    --blue-darker: #09306b;          
+    --success-bg: #e3f5e8;         
+    --success-bg-soft: #f4fbf6;   
+    --success-bg-alt: #d4edda;     
+    --success-text: #09306b;       
 
-    /* ----- Семантические цвета статусов (Bootstrap-style) ----- */
-    --success-bg: #e3f5e8;            /* фон карточки «успех» */
-    --success-bg-soft: #f4fbf6;       /* очень светлый фон «успех» */
-    --success-bg-alt: #d4edda;        /* альт. фон «успех» */
-    --success-text: #09306b;          /* тёмный текст по светлому фону */
+    --danger: #dc3545;              
+    --danger-bg: #f8d7da;       
+    --danger-text: #721c24;  
+    --warning-bg: #fff3cd;         
+    --warning-text: #856404;       
+    --info-bg: #d1ecf1;        
+    --info-text: #0c5460;        
 
-    --danger: #dc3545;                /* основной красный (border, иконка) */
-    --danger-bg: #f8d7da;             /* фон ошибки */
-    --danger-text: #721c24;           /* текст ошибки */
+    --radius-sm:      12px;        
+    --radius-md:      16px;  
+    --radius-lg:      20px;  
+    --radius-xl:      24px;    
+    --radius-2xl:     28px;       
+    --radius-pill:    40px;  
+    --radius-pill-lg: 60px;         
+    --radius-full:    999px;    
+    --radius-circle:  50%;        
+    --border-radius:  var(--radius-md);
 
-    --warning-bg: #fff3cd;            /* фон предупреждения */
-    --warning-text: #856404;          /* текст предупреждения */
-
-    --info-bg: #d1ecf1;               /* фон информационного блока */
-    --info-text: #0c5460;             /* текст информационного блока */
-
-    /* ----- Радиусы (закругления) ----- */
-    --radius-sm:      12px;             /* мелкие элементы (бейджи, инпуты) */
-    --radius-md:      16px;             /* карточки, блоки */
-    --radius-lg:      20px;             /* большие карточки */
-    --radius-xl:      24px;             /* контейнеры формы */
-    --radius-2xl:     28px;             /* hero/большие секции */
-    --radius-pill:    40px;             /* кнопки в стиле «pill» */
-    --radius-pill-lg: 60px;             /* крупные search-инпуты */
-    --radius-full:    999px;            /* полностью круглые элементы */
-    --radius-circle:  50%;              /* аватарки/иконки-кружки */
-    --border-radius:  var(--radius-md); /* legacy-алиас, оставлен для совместимости */
-
-    /* ----- Анимации (длительность + кривая) ----- */
     --transition-fast: 0.2s ease;
     --transition:      0.25s ease;
 
-    /* ----- Тени ----- */
     --shadow-xs:          0 2px 8px rgba(0, 0, 0, 0.04);
     --shadow-sm:          0 8px 20px rgba(0, 0, 0, 0.05);
     --shadow-md:          0 12px 28px rgba(0, 0, 0, 0.08);
@@ -61,14 +51,12 @@
     --ring-focus:         0 0 0 3px rgba(var(--blue-rgb), 0.12);
 }
 
-/* ===== 2. ГЛОБАЛЬНЫЕ СБРОСЫ ===== */
 * {
     margin: 0;
             padding: 0;
             box-sizing: border-box;
 }
 
-/* ===== 2.1. ОБЩИЕ KEYFRAMES (используются на нескольких страницах) ===== */
 @keyframes fadeIn {
     from { opacity: 0.4; }
           to { opacity: 1; }

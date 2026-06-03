@@ -2,13 +2,13 @@
 include('db.php');
 session_start();
 
-// Проверка авторизации администратора
+
 if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
     header('Location: login.php');
     exit;
 }
 
-// Обработка выхода
+
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
@@ -16,21 +16,21 @@ if (isset($_GET['logout'])) {
     exit;
 }
 
-// Допустимые статусы для заявок на обучение (согласно ТЗ)
+
 $valid_statuses = ['Новая', 'Идет обучение', 'Обучение завершено'];
 $status_updated = false;
 
-// Обработка изменения статуса заявки
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'])) {
     $request_id = (int)$_POST['request_id'];
     $status = $_POST['status'] ?? '';
 
-    // Валидация статуса
+    
     if (!in_array($status, $valid_statuses, true)) {
         die('Недопустимый статус заявки');
     }
 
-    // Использование подготовленных выражений
+    
     $stmt = $con->prepare("UPDATE request SET status = ? WHERE id = ?");
     $stmt->bind_param('si', $status, $request_id);
 
@@ -41,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['request_id'])) {
     }
 }
 
-// === Фильтры и сортировка ===
-// Статус: кликабельные карточки в блоке статистики → ?status=«Новая» / …
-// Вид транспорта и пользователь: выбор в select-ах
-// Сортировка: по дате / транспорту / статусу / пользователю (по умолчанию — дата ↓)
+
+
+
+
 $valid_venues = ['Автобус', 'Электробус', 'Трамвай'];
 $sort_columns = [
     'date'   => 'request.date',
@@ -66,7 +66,7 @@ $sort = $_GET['sort'] ?? 'date';
 if (!isset($sort_columns[$sort])) $sort = 'date';
 $dir = strtolower($_GET['dir'] ?? 'desc') === 'asc' ? 'ASC' : 'DESC';
 
-// Список пользователей для фильтра (без админов, только те, у кого есть заявки)
+
 $users_query = $con->query("
     SELECT DISTINCT users.id, users.login, users.fullname
     FROM users
@@ -76,7 +76,7 @@ $users_query = $con->query("
 ");
 $users_list = $users_query ? $users_query->fetch_all(MYSQLI_ASSOC) : [];
 
-// Сборка WHERE с prepared-биндами
+
 $where = [];
 $bind_types = '';
 $bind_vals  = [];
@@ -85,19 +85,19 @@ if ($f_venue  !== '') { $where[] = 'request.curses = ?'; $bind_types .= 's'; $bi
 if ($f_user   >   0)  { $where[] = 'request.user_id = ?'; $bind_types .= 'i'; $bind_vals[] = $f_user;  }
 $where_sql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
 
-// Подсчёт отфильтрованных заявок (для пагинации)
+
 $count_sql = "SELECT COUNT(*) as cnt FROM request INNER JOIN users ON request.user_id = users.id $where_sql";
 $count_stmt = $con->prepare($count_sql);
 if ($bind_types !== '') $count_stmt->bind_param($bind_types, ...$bind_vals);
 $count_stmt->execute();
 $filtered_total = (int)$count_stmt->get_result()->fetch_assoc()['cnt'];
 
-// Пагинация
+
 $page = max(1, (int)($_GET['page'] ?? 1));
 $limit = 10;
 $offset = ($page - 1) * $limit;
 
-// Основной SELECT (сортировка из вайт-листа — безопасно подставляется строкой)
+
 $sort_sql = $sort_columns[$sort] . ' ' . $dir;
 $list_sql = "
     SELECT request.*, users.login, users.fullname, users.birthdate, users.phone, users.email
@@ -115,7 +115,7 @@ $list_stmt->execute();
 $query = $list_stmt->get_result();
 if (!$query) die('Ошибка запроса: ' . $con->error);
 
-// Подсчёт статистики (по всем заявкам, независимо от фильтра)
+
 $stats_query = $con->query("
     SELECT
         COUNT(*) as total,
@@ -126,18 +126,18 @@ $stats_query = $con->query("
 ");
 $stats = $stats_query->fetch_assoc();
 
-// Помощник: сборка URL с сохранением текущих фильтров
+
 function admin_url(array $overrides = []): string {
     $params = array_merge($_GET, $overrides);
     foreach ($params as $k => $v) {
         if ($v === '' || $v === null) unset($params[$k]);
     }
-    // При смене фильтра/сортировки сбрасываем page; при пагинации page приходит в $overrides.
+    
     if (!array_key_exists('page', $overrides)) unset($params['page']);
     return '?' . http_build_query($params);
 }
 
-// Помощник: ссылка на заголовок-сортировки (переключает направление, если уже выбрано)
+
 function sort_link(string $col): string {
     global $sort, $dir;
     $next_dir = ($sort === $col && $dir === 'ASC') ? 'desc' : 'asc';
@@ -156,8 +156,8 @@ function sort_caret(string $col): string {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Панель администратора — Пассажирам.РФ</title>
     <!-- Roboto: современный гротеск -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https:
+    <link href="https:
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-admin">
@@ -253,7 +253,7 @@ function sort_caret(string $col): string {
                 </div>
             <?php } else {
                 while ($request = $query->fetch_assoc()) {
-                    // Определяем класс для статуса
+                    
                     $status_class = match($request['status']) {
                         'Новая' => 'status-new',
                         'Идет обучение' => 'status-assigned',
@@ -261,7 +261,7 @@ function sort_caret(string $col): string {
                         default => 'status-new'
                     };
 
-                    // Иконка для вида транспорта
+                    
                     $venue = $request['curses'] ?? '—';
                     $venue_icon = '';
                     if(strpos($venue, 'Автобус') !== false) $venue_icon = '🚌';
@@ -369,13 +369,13 @@ function sort_caret(string $col): string {
     <?php endif; ?>
 
     <script>
-        // Обработка отправки форм статуса
+        
         document.querySelectorAll('.status-update-form').forEach(form => {
             form.addEventListener('submit', function(e) {
                 const submitBtn = this.querySelector('.btn-save');
                 const originalText = submitBtn.innerHTML;
 
-                // Блокировка кнопки на время обработки
+                
                 submitBtn.disabled = true;
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Сохранение...';
 
@@ -386,7 +386,7 @@ function sort_caret(string $col): string {
             });
         });
 
-        // Плавная прокрутка к уведомлениям
+        
         const notification = document.querySelector('.notification');
         if (notification) {
             notification.scrollIntoView({

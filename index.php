@@ -1,14 +1,14 @@
 <?php
 session_start();
 
-// Выход из системы
+
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: index.php');
     exit;
 }
 
-// Проверяем, установлен ли ключ admin в сессии
+
 $is_admin = isset($_SESSION['admin']) && $_SESSION['admin'];
 ?>
 <!DOCTYPE html>
@@ -18,7 +18,7 @@ $is_admin = isset($_SESSION['admin']) && $_SESSION['admin'];
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Пассажирам.РФ — курсы обучения водителей пассажирского транспорта</title>
   <!-- Roboto: современный гротеск, отличная читаемость -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https:
     <link rel="stylesheet" href="assets/style.css">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
@@ -120,7 +120,7 @@ $is_admin = isset($_SESSION['admin']) && $_SESSION['admin'];
 </footer>
 
 <script>
-// Слайдер
+
 let slideIndex = 1;
 showSlides(slideIndex);
 

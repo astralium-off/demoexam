@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-// Подключаем базу данных в начале
+
 include('db.php');
 
-// Если пользователь уже авторизован, перенаправляем
+
 if (isset($_SESSION['user_id'])) {
     if (isset($_SESSION['admin']) && $_SESSION['admin']) {
         header('Location: admin.php');
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = true;
         $error_message = 'Пожалуйста, заполните все поля';
     } else {
-        // Используем подготовленные выражения для защиты от SQL инъекций
+        
         $stmt = $con->prepare("SELECT * FROM users WHERE login = ?");
         $stmt->bind_param("s", $login);
         $stmt->execute();
@@ -37,17 +37,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             $user = $result->fetch_assoc();
 
-            // ПРОВЕРКА ПАРОЛЯ: поддерживает оба формата (хеш и открытый текст)
+            
             $password_valid = false;
 
-            // 1. Проверка на хешированный пароль (новый формат)
+            
             if (password_verify($password, $user['password'])) {
                 $password_valid = true;
             }
-            // 2. Проверка на открытый текст (старый формат, для совместимости)
+            
             elseif ($password === $user['password']) {
                 $password_valid = true;
-                // Если пароль в открытом виде, перехешируем его для безопасности
+                
                 $hashed = password_hash($password, PASSWORD_DEFAULT);
                 $update_stmt = $con->prepare("UPDATE users SET password = ? WHERE id = ?");
                 $update_stmt->bind_param("si", $hashed, $user['id']);
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['user_login'] = $user['login'];
                 $_SESSION['user_fullname'] = $user['fullname'];
 
-                // Проверка на администратора
+                
                 if ($user['login'] == 'Admin26') {
                     $_SESSION['admin'] = true;
                     header('Location: admin.php');
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вход — Пассажирам.РФ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https:
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-login">

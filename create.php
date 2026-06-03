@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-// Выход из аккаунта
+
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: index.php');
@@ -15,16 +15,16 @@ $success = false;
 $error = false;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Доп. информация при подаче заявки — пишется в request.comment.
-    // Отзыв о пройденных курсах хранится отдельно в request.review
-    // и заполняется в history.php после статуса «Обучение завершено».
+    
+    
+    
     $comment = $_POST['comment'] ?? '';
-    $date = $_POST['date'];            // желаемая дата и время старта занятий
-    $venue = $_POST['venue'];          // вид транспорта (Автобус / Электробус / Трамвай)
-    $payment = $_POST['payment'];      // способ оплаты
-    $status = 'Новая';                 // статус заявки
+    $date = $_POST['date'];            
+    $venue = $_POST['venue'];          
+    $payment = $_POST['payment'];      
+    $status = 'Новая';                 
 
-    // Валидация выбора транспорта
+    
     $valid_transports = ['Автобус', 'Электробус', 'Трамвай'];
     if (!in_array($venue, $valid_transports, true)) {
         $error = true;
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заявка на обучение — Пассажирам.РФ</title>
     <!-- Roboto: современный гротеск (ясность, читаемость) -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https:
     <link rel="stylesheet" href="assets/style.css">
 </head>
 <body class="page-create">
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <script>
-        // Анимация загрузки при отправке формы
+        
         const form = document.getElementById('requestForm');
         const submitBtn = document.getElementById('submitBtn');
 
@@ -136,7 +136,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             });
         }
 
-        // Визуальный эффект при фокусе
+        
         const inputs = document.querySelectorAll('input, select, textarea');
         inputs.forEach(input => {
             input.addEventListener('focus', function() {
@@ -144,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             });
         });
 
-        // Минимальная дата — сегодняшняя (для datetime-local)
+        
         const dateInput = document.getElementById('date');
         if (dateInput) {
             const now = new Date();
